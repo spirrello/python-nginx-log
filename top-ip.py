@@ -4,11 +4,8 @@ Example of how to parse an nginx access log to find the top 10 IP addresses
 """
 
 
-
 import argparse
 import re
-
-
 
 
 def getArgs():
