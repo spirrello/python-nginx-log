@@ -6,10 +6,9 @@ Example of how to parse an nginx access log to find the top 10 IP addresses
 
 
 import argparse
-import os
 import re
-import sys
-from netaddr import valid_ipv4
+
+
 
 
 def getArgs():
