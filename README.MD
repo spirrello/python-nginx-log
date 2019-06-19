@@ -7,8 +7,7 @@
 
 ## Example usage
 
-Be sure to use the --log
-
+Prints out a sorted list with the top IP addresses and the number of occurrences.
 ```
 python3 top-ip.py --log access.log
 
