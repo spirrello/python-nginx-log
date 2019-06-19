@@ -7,6 +7,8 @@
 
 ## Example usage
 
+Be sure to use the --log
+
 ```
 python3 top-ip.py --log access.log
 
