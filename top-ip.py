@@ -7,6 +7,7 @@ Example of how to parse an nginx access log to find the top 10 IP addresses
 import argparse
 import re
 import sys
+import time
 
 
 def getArgs():
@@ -79,7 +80,13 @@ def main():
 
 
     #We'll now print a sorted list of the top x IP addreses
-    for ip in range(int(configArgs.top)):
+    if int(configArgs.top) > len(sortedsourceIPStats):
+        loopCount = len(sortedsourceIPStats)
+        print("\n--top {0} is greater than total number of addresses...using {1}\n".format(configArgs.top,len(sortedsourceIPStats)))
+        time.sleep(2)
+    else:
+        loopCount = int(configArgs.top)
+    for ip in range(loopCount):
         print(sortedsourceIPStats[ip])
 
 
