@@ -78,10 +78,9 @@ def main():
 
 
     #We'll now print a sorted list of the top x IP addreses
-    ipIndex = 0
     for ip in range(configArgs.top):
-        print(sortedsourceIPStats[ipIndex])
-        ipIndex += 1
+        print(sortedsourceIPStats[ip])
+
 
 
 
