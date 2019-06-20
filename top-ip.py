@@ -27,6 +27,35 @@ def getArgs():
     return config_args
 
 
+def createSourceIPList(nginxAccessLog):
+    """
+    Extract the source IP addresses
+    """
+    sourceIPList = []
+
+    for line in nginxAccessLog:
+        ip = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", line)
+        if ip != None:
+            sourceIPList.append(ip.group())
+
+    return sourceIPList
+
+
+def createSourceIPStats(sourceIPList):
+    """
+    Create dictionary for source IP stats and sort the list.
+    """
+    sourceIPStats = {}
+
+    for ip in sourceIPList:
+        sourceIPStats.update({ip:sourceIPList.count(ip)})
+
+    #Need to sort the dictionary
+    sortedsourceIPStats = [(ipAddr, sourceIPStats[ipAddr]) for ipAddr in sorted(sourceIPStats, key=sourceIPStats.get, reverse=True)]
+
+    return sortedsourceIPStats
+
+
 
 def main():
 
@@ -41,23 +70,17 @@ def main():
         sys.exit(1)
 
 
-    ipList = []
-    ipStats = {}
-    for line in nginxAccessLog:
-        ip = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", line)
-        if ip != None:
-            ipList.append(ip.group())
+    #Fetch list of source IP addresses
+    sourceIPList = createSourceIPList(nginxAccessLog)
 
-    for ip in ipList:
-        ipStats.update({ip:ipList.count(ip)})
+    #Fetch the sorted list with stats
+    sortedsourceIPStats = createSourceIPStats(sourceIPList)
 
-    #Need to sort the dictionary
-    sortedIpStats = [(ipAddr, ipStats[ipAddr]) for ipAddr in sorted(ipStats, key=ipStats.get, reverse=True)]
 
     #We'll now print a sorted list of the top x IP addreses
     ipIndex = 0
     for ip in range(configArgs.top):
-        print(sortedIpStats[ipIndex])
+        print(sortedsourceIPStats[ipIndex])
         ipIndex += 1
 
 
